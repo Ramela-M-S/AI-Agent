@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Agent</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/4712/4712035.png">
+    
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: radial-gradient(circle at top, #ffdde1, #ee9ca7, #ff6a00);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Poppins', sans-serif;
+            padding: 20px;
+        }
+
+        .chat-card {
+            width: 95%;
+            max-width: 900px;
+            min-height: auto;
+            background: linear-gradient(135deg, #fff1eb, #ffe4d9);
+            border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            padding-bottom: 16px;
+        }
+
+        .chat-header {
+            background: linear-gradient(to right, #ff416c, #ff4b2b, #ffb347);
+            color: white;
+            padding: 28px;
+            text-align: center;
+        }
+
+        .chat-header h2 {
+            font-weight: 800;
+            font-size: 1.8rem;
+        }
+
+        .chat-body {
+            padding: 24px;
+        }
+
+        /* AI RESPONSE BOX */
+        .ai-response {
+            background: linear-gradient(135deg, #ffffff, #fff3e0);
+            border-left: 6px solid #ff7043;
+            padding: 26px;
+            border-radius: 20px;
+            margin-bottom: 35px;
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .ai-response h5 {
+            font-weight: 700;
+            color: #e64a19;
+            margin-bottom: 12px;
+        }
+
+        /* THINKING STATE */
+        .thinking {
+            font-style: italic;
+            color: #ff7043;
+            font-weight: 500;
+            animation: pulse 1.2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.4; }
+            50% { opacity: 1; }
+            100% { opacity: 0.4; }
+        }
+
+        /* MESSAGE INPUT */
+        label {
+            font-weight: 700;
+            color: #d84315;
+            font-size: 1.1rem;
+        }
+
+        textarea {
+            resize: none;
+            border-radius: 18px;
+            border: 2px solid #ffd1c1;
+            background-color: #fffaf7;
+            padding: 14px;
+            font-size: 1rem;
+            min-height: 120px;
+        }
+
+        textarea:focus {
+            box-shadow: none;
+            border-color: #ff7043;
+        }
+
+        .ask-btn {
+            background: linear-gradient(to right, #ff416c, #ff4b2b);
+            border: none;
+            border-radius: 18px;
+            padding: 16px;
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: white;
+            transition: all 0.25s ease;
+        }
+
+        .ask-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 14px 35px rgba(255, 75, 43, 0.55);
+        }
+
+        /* RESPONSIVE MEDIA QUERIES */
+        @media (max-width: 576px) {
+            .chat-header {
+                padding: 18px;
+            }
+
+            .chat-header h2 {
+                font-size: 1.4rem;
+            }
+
+            .ai-response {
+                padding: 18px;
+                margin-bottom: 22px;
+            }
+
+            textarea {
+                min-height: 100px;
+                font-size: 0.95rem;
+            }
+
+            .ask-btn {
+                padding: 12px;
+                font-size: 1rem;
+            }
+        }
+
+        @media (min-width: 577px) and (max-width: 992px) {
+            .chat-body {
+                padding: 30px;
+            }
+
+            textarea {
+                min-height: 130px;
+            }
+        }
+    </style>
+
+    <script>
+        function showThinking() {
+            document.getElementById("thinkingBox").style.display = "block";
+        }
+    </script>
+</head>
+
+<body>
+
+<div class="chat-card">
+    <div class="chat-header">
+        <h2 class="mb-0">
+            <i class="bi bi-robot"></i> AI Agent
+        </h2>
+    </div>
+
+    <div class="chat-body">
+
+        <!-- AI RESPONSE (ABOVE INPUT) -->
+        {% if response %}
+        <div class="ai-response">
+            <h5><i class="bi bi-cpu-fill"></i> AI Response</h5>
+            <p class="mb-0 fs-6">{{ response }}</p>
+        </div>
+        {% endif %}
+
+        <!-- THINKING STATE -->
+        <div id="thinkingBox" class="ai-response" style="display:none;">
+            <h5><i class="bi bi-hourglass-split"></i> AI Response</h5>
+            <p class="thinking mb-0">Thinking...</p>
+        </div>
+
+        <!-- INPUT FORM -->
+        <form method="post" onsubmit="showThinking()">
+            <div class="mb-4">
+                <label class="form-label">
+                    <i class="bi bi-chat-dots-fill"></i> Enter your message
+                </label>
+                <textarea
+                    name="user_input"
+                    class="form-control"
+                    placeholder="Type your question here..."
+                    required></textarea>
+            </div>
+
+            <div class="d-grid">
+                <button type="submit" class="btn ask-btn">
+                    <i class="bi bi-send-fill"></i> Ask AI
+                </button>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+</body>
+</html>
